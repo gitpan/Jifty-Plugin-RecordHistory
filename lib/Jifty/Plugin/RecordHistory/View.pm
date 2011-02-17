@@ -37,7 +37,9 @@ sub object_type {
 
 sub page_title {
     my $self = shift;
-    return _('History for %1', $self->object_type);
+    return _('History for %1: %2',
+             $self->object_type,
+             $self->load_record->brief_description);
 }
 
 sub record_class {
@@ -67,7 +69,7 @@ sub load_record {
 }
 
 template 'index.html' => page { title => shift->page_title } content {
-    show './list';
+    show 'list';
 };
 
 template 'header' => sub {
@@ -132,7 +134,10 @@ template 'change' => sub {
             { class is 'time' };
             $change->created_on->hms
         };
-        show $template => $change
+        div {
+            { class is 'change-details' };
+            show $template => $change
+        };
     };
 };
 
@@ -141,7 +146,7 @@ template 'change-create' => sub {
     my $change = shift;
 
     span {
-        show 'record' => $change->record;
+        show 'record_type' => $change->record;
         outs _(' created by ');
         show 'actor' => $change->created_by;
     };
@@ -157,7 +162,7 @@ template 'change-update' => sub {
     my $record = $change->record;
 
     span {
-        show 'record' => $record;
+        show 'record_type' => $record;
         outs _(' updated by ');
         show 'actor' => $change->created_by;
     };
@@ -214,7 +219,7 @@ template 'change_field' => sub {
     };
 };
 
-template 'record' => sub {
+template 'record_type' => sub {
     my $self   = shift;
     my $record = shift;
 

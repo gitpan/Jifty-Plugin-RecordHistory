@@ -14,7 +14,8 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 a0439e0510b6fa1e83a0b0187b1115f223c8dfb7 MANIFEST
+SHA1 820cf382e8000b6e1ceddda2577a1a41f4da2d42 Changes
+SHA1 28806eb5dac1e2f98df355a1d3b97908e3be02a4 MANIFEST
 SHA1 83d8b713f76b8dba689d507cff8f2993c11b92ec META.yml
 SHA1 cf3fef303b933f05396bd47a548c9367cc53bf85 Makefile.PL
 SHA1 20c73697e1713638140c719d8eaa19a275ed43a5 inc/Module/AutoInstall.pm
@@ -29,12 +30,12 @@ SHA1 026cc0551a0ad399d195e395b46bdf842e115192 inc/Module/Install/Metadata.pm
 SHA1 bccd856d0ce68773e1218527114ceed1468e1776 inc/Module/Install/Share.pm
 SHA1 5457015ea5a50e93465bf2dafa29feebd547f85b inc/Module/Install/Win32.pm
 SHA1 051e7fa8063908befa3440508d0584a2497b97db inc/Module/Install/WriteAll.pm
-SHA1 7c96529f0ee54cbab920275506ed5bced3a22814 lib/Jifty/Plugin/RecordHistory.pm
+SHA1 7aa04c10735d1106bb01d05f5b0a4ea8f84e806a lib/Jifty/Plugin/RecordHistory.pm
 SHA1 05156b76c04717dcbad1a0c26badf0172c3bc019 lib/Jifty/Plugin/RecordHistory/Mixin/Model/RecordHistory.pm
 SHA1 9763c4f6172ec09250ac311a09810ba26c6c93e7 lib/Jifty/Plugin/RecordHistory/Model/Change.pm
 SHA1 0a6def366d1639ff2c9419eb391390ae280b4708 lib/Jifty/Plugin/RecordHistory/Model/ChangeField.pm
-SHA1 9fdac1b43c81bcc8b8542c2019884b788ce4cebc lib/Jifty/Plugin/RecordHistory/View.pm
-SHA1 567d1716618536e318d0b3b090328ebd2ece95fd share/web/static/css/record-history.css
+SHA1 f44c4133d39efb60fa7cc42c1c3c4b5ad681d669 lib/Jifty/Plugin/RecordHistory/View.pm
+SHA1 62259ebde43a6d409a1d98561a73c75a2805b046 share/web/static/css/record-history.css
 SHA1 b13979d2e600f32af486a5b46d62c7ba4df6056c t/TestApp-Plugin-RecordHistory/Makefile.PL
 SHA1 1b49e20e2e611f2f3df4e3e468787bb4215185ff t/TestApp-Plugin-RecordHistory/app.psgi
 SHA1 2cbdb35e9070ce00e65df0e997e14e2206d35662 t/TestApp-Plugin-RecordHistory/bin/jifty
@@ -49,7 +50,7 @@ SHA1 76af4a515ad272718522f5730398b5b6a60a3d3d t/TestApp-Plugin-RecordHistory/t/0
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (Darwin)
 
-iEYEARECAAYFAk1Z+3gACgkQsxfQtHhyRPp7+QCdHe34ddAdNOBJb2XSt8XvV0Zt
-sfIAnjrAsl1E7Dupfb355HxXTY4gOMW2
-=XKYt
+iEYEARECAAYFAk1dmkYACgkQsxfQtHhyRPob1QCcD/35fDZWXkBXE4RySrnMbunQ
+bdIAnRqCGGpUSwuP6t5QAjlOaet2QVYE
+=4L1u
 -----END PGP SIGNATURE-----
