@@ -11,9 +11,15 @@ our @EXPORT = qw(
 
 sub import {
     my $class = shift;
+    my %args  = (
+        cascaded_delete => 1,
+        delete_change   => 0,
+        @_,
+    );
+
     my $caller = caller;
 
-    $class->export_to_level(1, @_);
+    $class->export_to_level(1);
 
     $caller->add_trigger(after_create => sub {
         my $self = shift;
@@ -56,20 +62,36 @@ sub import {
         );
     });
 
-    # we hook into before_delete so we can still access ->changes etc
-    $caller->add_trigger(before_delete => sub {
-        my $self = shift;
+    if ($args{cascaded_delete}) {
+        # we hook into before_delete so we can still access ->changes etc
+        $caller->add_trigger(before_delete => sub {
+            my $self = shift;
 
-        my $changes = $self->changes;
-        while (my $change = $changes->next) {
-            my $change_fields = $change->change_fields;
-            while (my $change_field = $change_fields->next) {
-                $change_field->delete;
+            my $changes = $self->changes;
+            while (my $change = $changes->next) {
+                my $change_fields = $change->change_fields;
+                while (my $change_field = $change_fields->next) {
+                    $change_field->delete;
+                }
+
+                $change->delete;
             }
+        });
+    }
 
-            $change->delete;
-        }
-    });
+    # this is intentionally added AFTER the previous trigger
+    if ($args{delete_change}) {
+        $caller->add_trigger(before_delete => sub {
+            my $self = shift;
+
+            my $change = Jifty::Plugin::RecordHistory::Model::Change->new;
+            $change->create(
+                record_class => ref($self),
+                record_id    => $self->id,
+                type         => 'delete',
+            );
+        });
+    }
 
     # wrap update actions in a change so we can group them as one change with
     # many field changes

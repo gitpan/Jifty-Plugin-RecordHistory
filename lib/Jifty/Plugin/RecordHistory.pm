@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw/Jifty::Plugin/;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub init {
     Jifty->web->add_css('record-history.css');
@@ -42,6 +42,29 @@ and using the mixin to your record class(es) to enjoy transaction history. The
 mixin even hooks into Jifty itself to observe record creation, updates, and
 deletions.
 
+=head2 Configuration
+
+When you're importing the mixin you have several options to control the behavior
+of history. Here are the defaults:
+
+    use Jifty::Plugin::RecordHistory::Mixin::Model::RecordHistory (
+        cascaded_delete => 1,
+        delete_change   => 0,
+    );
+
+If C<cascaded_delete> is true, then
+L<Jifty::Plugin::RecordHistory::Model::Change> and
+L<Jifty::Plugin::RecordHistory::Model::ChangeField> records are deleted at the
+same time the original record they refer to is deleted. If C<cascaded_delete>
+is false, then the Change and ChangeField records persist even if the original
+record is deleted.
+
+If C<delete_change> is true, then when your record is deleted we create a
+L<Jifty::Plugin::RecordHistory::Model::Change> record whose type is C<delete>.
+If C<delete_change> is false, then we do not record the deletion. If
+both C<cascaded_delete> I<and> C<delete_change> are true, then you will end up
+with only one change after the record is deleted -- the C<delete>.
+
 =head2 Grouping
 
 By default, the only mechanism that groups together change_fields onto a single
@@ -64,6 +87,17 @@ course set C<id> via dispatcher rule).
 Alternatively, if you want to extend the default templates, you can subclass
 L<Jifty::Plugin::RecordHistory::View> in the same way as
 L<Jifty::View::Declare::CRUD>.
+
+=head2 Access control
+
+By default, we delegate
+L<Jifty::Plugin::RecordHistory::Model::Change/current_user_can> and
+L<Jifty::Plugin::RecordHistory::Model::ChangeField/current_user_can> to the
+record class. The logic is if you can read the record, you can read its changes
+and its change fields. If you can change the record you can create, update, and
+delete changes and their change fields. If you want more fine-grained control
+over this, you can implement a C<current_user_can_for_change> method in your
+record class which, if present, we will use instead of this logic.
 
 =head1 SEE ALSO
 

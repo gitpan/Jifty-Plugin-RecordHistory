@@ -25,6 +25,8 @@ t/TestApp-Plugin-RecordHistory/app.psgi
 t/TestApp-Plugin-RecordHistory/bin/jifty
 t/TestApp-Plugin-RecordHistory/etc/config.yml
 t/TestApp-Plugin-RecordHistory/lib/TestApp/Plugin/RecordHistory/Model/Book.pm
+t/TestApp-Plugin-RecordHistory/lib/TestApp/Plugin/RecordHistory/Model/CD.pm
+t/TestApp-Plugin-RecordHistory/lib/TestApp/Plugin/RecordHistory/Model/DVD.pm
 t/TestApp-Plugin-RecordHistory/lib/TestApp/Plugin/RecordHistory/View.pm
 t/TestApp-Plugin-RecordHistory/Makefile.PL
 t/TestApp-Plugin-RecordHistory/t/001-basic.t
@@ -32,3 +34,5 @@ t/TestApp-Plugin-RecordHistory/t/002-error.t
 t/TestApp-Plugin-RecordHistory/t/003-action.t
 t/TestApp-Plugin-RecordHistory/t/004-manual.t
 t/TestApp-Plugin-RecordHistory/t/005-view.t
+t/TestApp-Plugin-RecordHistory/t/006-no-cascaded-delete.t
+t/TestApp-Plugin-RecordHistory/t/007-delete-change.t
