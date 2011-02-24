@@ -21,6 +21,7 @@ no_index:
     - t
 requires:
   Jifty: 1.01209
+  Jifty::DBI: 0.66
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.05

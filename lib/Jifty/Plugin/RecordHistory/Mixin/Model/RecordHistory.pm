@@ -27,8 +27,9 @@ sub import {
 
         return if !$id; # the actual create failed
 
-        my $change = Jifty::Plugin::RecordHistory::Model::Change->new;
+        my $change = Jifty::Plugin::RecordHistory::Model::Change->new(current_user => Jifty::CurrentUser->superuser);
         $change->create(
+            created_by   => $self->current_user->id,
             record_class => ref($self),
             record_id    => $id,
             type         => 'create',
@@ -37,7 +38,7 @@ sub import {
 
     $caller->add_trigger(after_set => sub {
         my $self = shift;
-        my %args   = (
+        my %args = (
             column    => undef,
             value     => undef,
             old_value => undef,
@@ -45,8 +46,9 @@ sub import {
         );
 
         my $change = $self->current_change || do {
-            my $change = Jifty::Plugin::RecordHistory::Model::Change->new;
+            my $change = Jifty::Plugin::RecordHistory::Model::Change->new(current_user => Jifty::CurrentUser->superuser);
             $change->create(
+                created_by   => $self->current_user->id,
                 record_class => ref($self),
                 record_id    => $self->id,
                 type         => 'update',
@@ -54,7 +56,6 @@ sub import {
             $change
         };
 
-        # TODO: capture old_value somehow
         $change->add_change_field(
             field     => $args{column},
             old_value => $args{old_value},
@@ -68,6 +69,8 @@ sub import {
             my $self = shift;
 
             my $changes = $self->changes;
+            $changes->current_user(Jifty::CurrentUser->superuser);
+
             while (my $change = $changes->next) {
                 my $change_fields = $change->change_fields;
                 while (my $change_field = $change_fields->next) {
@@ -79,13 +82,15 @@ sub import {
         });
     }
 
-    # this is intentionally added AFTER the previous trigger
+    # this is intentionally added AFTER the previous trigger, otherwise we'll
+    # create the delete change in this trigger then delete it in the other
     if ($args{delete_change}) {
         $caller->add_trigger(before_delete => sub {
             my $self = shift;
 
-            my $change = Jifty::Plugin::RecordHistory::Model::Change->new;
+            my $change = Jifty::Plugin::RecordHistory::Model::Change->new(current_user => Jifty::CurrentUser->superuser);
             $change->create(
+                created_by   => $self->current_user,
                 record_class => ref($self),
                 record_id    => $self->id,
                 type         => 'delete',
@@ -132,13 +137,14 @@ sub start_change {
     my $type = shift || 'update';
 
     my %args = (
+        created_by   => $self->current_user->id,
         record_class => ref($self),
         record_id    => $self->id,
         type         => $type,
         @_,
     );
 
-    my $change = Jifty::Plugin::RecordHistory::Model::Change->new;
+    my $change = Jifty::Plugin::RecordHistory::Model::Change->new(current_user => Jifty::CurrentUser->superuser);
     if ($type eq 'update') {
         $change->deferred_create(%args);
     }
