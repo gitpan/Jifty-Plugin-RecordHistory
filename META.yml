@@ -20,8 +20,8 @@ no_index:
     - share
     - t
 requires:
-  Jifty: 1.01209
+  Jifty: 1.10214
   Jifty::DBI: 0.66
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.05
+version: 0.06
